@@ -22,11 +22,9 @@ public class StudentController {
     @GetMapping("/{id}")
     public Student findStudent(@PathVariable int id) {
         List<Student> studentList = getStudents();
-        for (int i = 0; i < studentList.size(); i++) {
-            if (studentList.get(i).id() == id) {
-                return studentList.get(i);
-            }
-        }
-        return null;
+        return studentList.stream()// this turns the studentList into a Stream <Student>
+                .filter(s -> s.id() == id)// here we filter to keep the elements where the id() match the id target
+                .findFirst() // here we are returning optional of the first match
+                .orElse(null);
     }
-}
+    }
